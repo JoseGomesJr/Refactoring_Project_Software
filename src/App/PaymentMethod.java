@@ -1,3 +1,5 @@
+package App;
+
 public class PaymentMethod {
     private String method;
     private PayBanck bank;

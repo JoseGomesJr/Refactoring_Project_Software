@@ -1,4 +1,8 @@
+package App;
+
 import java.util.*;
+
+import model.Undo.*;
 public class AuxEmployee {
     private Random gerador = new Random(19904522);
     private int random;
@@ -111,7 +115,7 @@ public class AuxEmployee {
            syndicates.add(unionlist);
         }
     }
-    public int AddTimecard(List<Employee> employees, int id, Undo rUndo){
+    public Undo AddTimecard(List<Employee> employees, int id, Undo rUndo){
         Scanner input= new Scanner(System.in);
         if(employees.get(id).typeEmployee().equals("Hourly"))
         {
@@ -120,16 +124,18 @@ public class AuxEmployee {
             int nSelect= input.nextInt();
             switch (nSelect) {
                 case 1:
-                    rUndo.Salvetime(Undo.TIME, 0d, employees.get(id), nSelect);
+                    rUndo= new SalveTime(Undo.TIME, 0d, employees.get(id), nSelect);
+                   
                     ((Hourly)employees.get(id)).setEntryCard();
                     System.out.println(Color.GREEN+"Registered entry. Good work!"+Color.RESET);
-                    return 1;
+                    return rUndo;
                 case 2:
-                    rUndo.Salvetime(Undo.TIME, ((Hourly)employees.get(id)).getPay(), employees.get(id), nSelect);
+                    rUndo= new SalveTime(Undo.TIME, ((Hourly)employees.get(id)).getPay(), employees.get(id), nSelect);
+                    
                     ((Hourly)employees.get(id)).setExitCard();
                     ((Hourly)employees.get(id)).setHoursDay();
                     System.out.println(Color.GREEN+"Checkout registered. To the next"+Color.RESET);
-                    return 2;
+                    return rUndo;
                 default:
                     System.out.println(Color.YELLOW+"None of the options were selected, you will return to the start menu"+Color.RESET);
                     break;
@@ -138,7 +144,7 @@ public class AuxEmployee {
         else{
             System.out.println(Color.RED+"The employee informed is not an hourly"+Color.RESET);
         }
-        return 0;
+        return rUndo;
     }
     public int day(){
         Calendar calendar= Calendar.getInstance();
@@ -155,7 +161,7 @@ public class AuxEmployee {
     public int SearchEmployeeList(List<Employee> employeelist){
         Scanner input= new Scanner(System.in);
         int id=-1;
-        System.out.println("Select a form of identification:\n1-id\n2-Name"); // generalize a forma de seleção 
+        System.out.println("Select a form of identification:\n1-id\n2-Name");
         int nSelect= input.nextInt();
         input.nextLine();
         switch (nSelect){

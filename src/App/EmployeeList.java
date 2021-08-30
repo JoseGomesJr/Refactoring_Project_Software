@@ -1,22 +1,29 @@
+package App;
+
 import java.util.*;
+
+import model.Undo.*;
 public class EmployeeList {
+    //Lista de Empregados e Membros do Sindicato
     private List<Employee> employeelist= new ArrayList<>();
     private List<Syndicate> syndicatelist= new ArrayList<>();
-    private Employee employee;
+    //Classes auxiliares para o controle de dados
     private PayFunction payFunction= new PayFunction();
     private AuxEmployee AuxEmployee= new AuxEmployee();
     private ChangeEmployee change= new ChangeEmployee();
     private List<Integer> randons= new ArrayList<>();
+    // Variavies de controle
     private boolean rundo=false;
     private int datepay= -1;
-    private Undo rUndo= new Undo();
-    private Undo reUndo= new Undo();
-    private AuxRedo AuxRedo = new AuxRedo();
-    private LinkedList<History> history= new LinkedList<>();
+    //Classes para retrocesseder ou refazer uma ação do usuario
+    private LinkedList<Undo> Hrundo= new LinkedList<>();
+    private LinkedList<Undo> undo= new LinkedList<>();
+    private LinkedList<Undo> redo= new LinkedList<>();
+
     public void novo(){
+        Employee employee;
         Scanner input= new Scanner(System.in);
-        this.reUndo= new Undo();
-        history= new LinkedList<>();
+        redo= new LinkedList<>();
         System.out.println("Employer's name");
         String name= input.nextLine();
 
@@ -60,7 +67,8 @@ public class EmployeeList {
        employee.setPayment(payFunction.AddMethod());
        payFunction.Schedule(employee.getPayment(), employee.typeEmployee());
        employeelist.add(employee);
-       rUndo.Salve(Undo.NEWEMP, employee);
+       Undo sundo= new SalveEmployee(1, employee);
+       undo.add(sundo);
        
     }
     public void printList()
@@ -76,23 +84,21 @@ public class EmployeeList {
     }
     public void removeEmployee()
     {
-        this.reUndo= new Undo();
-        history= new LinkedList<>();
+        redo= new LinkedList<>();
         int id= AuxEmployee.SearchEmployeeList(employeelist);
         int idsyn;
-        // remover o empregado da lista de sindicatos
         if(id!=-1) {
             if(employeelist.get(id).getSyndicate()==true){
                 idsyn=AuxEmployee.SeachSyndicate(syndicatelist, employeelist.get(id));
-                rUndo.Salvesyndi(Undo.REMOVEEMP, employeelist.get(id), syndicatelist.get(idsyn).getId());
+                Undo sundo= new SalveEmployee(2, employeelist.get(id), syndicatelist.get(idsyn).getId());
+                undo.add(sundo);
                 syndicatelist.remove(idsyn);
                 employeelist.remove(id);
-                //reUndo.Salvesyndi(Undo.REMOVEEMP, employeelist.get(id), syndicatelist.get(idsyn).getId());
             }
             else{
-                rUndo.Salve(Undo.REMOVEEMP, employeelist.get(id));
+                Undo sundo= new SalveEmployee(2, employeelist.get(id));
+                undo.add(sundo);
                 employeelist.remove(id);
-                //reUndo.Salve(Undo.REMOVEEMP, employeelist.get(id));
             }
             System.out.println(Color.GREEN+"Employee successfully removed"+Color.RESET);
 
@@ -110,12 +116,12 @@ public class EmployeeList {
         }
     }
     public void Timecard(){
-        this.reUndo= new Undo();
-        history= new LinkedList<>();
+        this.redo=  new LinkedList<>();
         int idname= AuxEmployee.SearchEmployeeList(employeelist);
-        int aux;
+        Undo aux=null;
         if(idname!=-1){
-            aux=AuxEmployee.AddTimecard(employeelist, idname, rUndo);
+            aux=AuxEmployee.AddTimecard(employeelist, idname, aux);
+            undo.add(aux);
         }
         else{
             System.out.println(Color.RED+"The data entered is not associated with any employee"+Color.RESET);
@@ -131,8 +137,7 @@ public class EmployeeList {
         }
     }
     public void Salles(){
-        this.reUndo= new Undo();
-        history= new LinkedList<>();
+        redo= new LinkedList<>();
         Scanner input= new Scanner(System.in);
         int idname= AuxEmployee.SearchEmployeeList(employeelist);
         System.out.println("Informs the sales result:");
@@ -146,8 +151,10 @@ public class EmployeeList {
                 input.nextLine();
                 String date= input.nextLine();
                 
-                rUndo.Salvecommission(Undo.COMISSION, ((Commissioned) employeelist.get(idname)).getComissionTotal(), 
+                Undo sundo= new SalveCommission(Undo.COMISSION, ((Commissioned) employeelist.get(idname)).getComissionTotal(), 
                 ((Commissioned) employeelist.get(idname)).getDates(), employeelist.get(idname));
+
+                undo.add(sundo);
 
                 ((Commissioned) employeelist.get(idname)).setComissionTotal(valor, date);
             }
@@ -160,13 +167,14 @@ public class EmployeeList {
         }
     }
     public void TaxService(){
-        this.reUndo= new Undo();
+        redo= new LinkedList<>();
         Scanner input= new Scanner(System.in);
         int idname= AuxEmployee.SearchEmployeeList(employeelist);
         if(idname!=-1){
             System.out.println("Inform the percentage that should be charged to the employee");
             Double tax= input.nextDouble();
-            rUndo.SalveTaxservi(Undo.TAXSERVICE, employeelist.get(idname).getTaxService(), employeelist.get(idname));
+            Undo sundo= new SalveTaxservi(Undo.TAXSERVICE, employeelist.get(idname).getTaxService(), employeelist.get(idname));
+            undo.add(sundo);
             employeelist.get(idname).setTaxService(tax);
             //reUndo.SalveTaxservi(Undo.TAXSERVICE, employeelist.get(idname).getTaxService(), employeelist.get(idname));
 
@@ -178,6 +186,7 @@ public class EmployeeList {
     public void ChangerEmployee(){
         
         Scanner input= new Scanner(System.in);
+        Undo sundo;
         System.out.println("Select the employee you want to change");
         int idname= AuxEmployee.SearchEmployeeList(employeelist);
         if(idname!=-1){
@@ -191,29 +200,29 @@ public class EmployeeList {
             int nSelect= input.nextInt();
             switch (nSelect) {
                 case 1:
-                    rUndo.Salve(Undo.CHANGERNAME, employeelist.get(idname).getName(), employeelist.get(idname));
+                    sundo= new SalveName(Undo.CHANGERNAME, employeelist.get(idname).getName(), employeelist.get(idname));
+                    undo.add(sundo);
                     change.ChangeName(employeelist.get(idname));
-                    this.reUndo= new Undo();
-                    history= new LinkedList<>();
+                    redo= new LinkedList<>();
                     break;
                 case 2:
-                    rUndo.Salve(Undo.CHANGERADRESS, employeelist.get(idname).getAdress(), employeelist.get(idname));
+                    sundo= new Salveadress(Undo.CHANGERNAME, employeelist.get(idname).getAdress(), employeelist.get(idname));
+                    undo.add(sundo);
                     change.ChangeAdress(employeelist.get(idname));
-                    this.reUndo= new Undo();
-                    history= new LinkedList<>();
+                    redo= new LinkedList<>();
                     break;
                 case 3:
-                    rUndo.Salve(Undo.CHANGERTYPE, employeelist.get(idname));
+                    sundo= new SalveTypeEmployee(Undo.CHANGERTYPE, employeelist.get(idname));
+                    undo.add(sundo);
                     change.Changer(idname, employeelist, syndicatelist);
-                    this.reUndo= new Undo();
-                    history= new LinkedList<>();
+                    redo= new LinkedList<>();
                     break;
                 case 4:
                     System.out.println("Choose new payment method");
-                    rUndo.Salvepay(Undo.CHANGERPAY, employeelist.get(idname).getPayment(), employeelist.get(idname));
+                    sundo= new SalvePay(Undo.CHANGERPAY, employeelist.get(idname).getPayment(), employeelist.get(idname));
+                    undo.add(sundo);
                     employeelist.get(idname).setPayment(payFunction.AddMethod());
-                    this.reUndo= new Undo();
-                    history= new LinkedList<>();
+                    redo= new LinkedList<>();
                    break;
                 case 5:
                 
@@ -222,7 +231,8 @@ public class EmployeeList {
                         System.out.println(Color.YELLOW+"Employee is not part of the union, would you like to add?\n1-Yes\n2-No"+Color.RESET);
                         int select= input.nextInt();
                         if(select==1){
-                            rUndo.Salve(Undo.CHANGERSYND, employeelist.get(idname));
+                            sundo= new SalveSyndicate(Undo.CHANGERSYND, employeelist.get(idname), 0);
+                            undo.add(sundo);
                             AuxEmployee.AddSyndicate(employeelist.get(idname), syndicatelist);
                             int id= AuxEmployee.SeachSyndicate(syndicatelist, employeelist.get(idname));
                             //reUndo.Salvesyndi(Undo.CHANGERSYND, employeelist.get(idname), syndicatelist.get(id).getId());
@@ -234,24 +244,24 @@ public class EmployeeList {
                         int select= input.nextInt();
                         if(select==1){
                             int id= AuxEmployee.SeachSyndicate(syndicatelist, employeelist.get(idname));
-                            rUndo.Salvesyndi(Undo.CHANGERSYND, employeelist.get(idname), syndicatelist.get(id).getId());
+                            sundo= new SalveSyndicate(Undo.CHANGERSYND, employeelist.get(idname), syndicatelist.get(id).getId());
+                            undo.add(sundo);
                             AuxEmployee.RemoveSyndicate(employeelist.get(idname), syndicatelist);
                             //reUndo.Salve(Undo.CHANGERSYND, employeelist.get(idname));
                         }
                         
                    }
-                   this.reUndo= new Undo();
-                   history= new LinkedList<>();
+                   redo= new LinkedList<>();
                    break;
                 case 6:
                     int id= AuxEmployee.SeachSyndicate(syndicatelist, employeelist.get(idname));
                     if(id!=-1){
                         System.out.println("Enter the new ID");
                         int newid= input.nextInt();
-                        rUndo.Salveidsyn(Undo.CHANGERIDSYN, syndicatelist.get(id).getId(), id);
+                        sundo= new SalveIDSyn(Undo.CHANGERIDSYN, syndicatelist.get(id).getId(), id);
+                        undo.add(sundo);
                         syndicatelist.get(id).setId(newid);
-                        this.reUndo= new Undo();
-                        history= new LinkedList<>();
+                        redo= new LinkedList<>();
                     }
                     else{
                         System.out.println(Color.RED+"The data entered is not associated with any unionist"+Color.RESET);
@@ -260,10 +270,11 @@ public class EmployeeList {
                 case 7:
                     System.out.println("Inform the new union fee");
                     Double taxSyndicate= input.nextDouble();
-                    rUndo.SalveTaxservi(Undo.CHANGERTAXSYND, employeelist.get(idname).getTaxSyndicate() , employeelist.get(idname));
+                    sundo= new TaxSynd(Undo.CHANGERTAXSYND, employeelist.get(idname).getTaxSyndicate() , employeelist.get(idname));
+                    undo.add(sundo);
+                    //rUndo.SalveTaxservi(Undo.CHANGERTAXSYND, employeelist.get(idname).getTaxSyndicate() , employeelist.get(idname));
                     employeelist.get(idname).setTaxSyndicate(taxSyndicate);
-                    this.reUndo= new Undo();
-                    history= new LinkedList<>();
+                    redo= new LinkedList<>();
                     break;
                 default:
                     System.out.println(Color.RED+"None of the options were selected, you will return to the start menu"+Color.RESET);
@@ -276,13 +287,13 @@ public class EmployeeList {
         }
     }
     public void pay(){
-        this.reUndo= new Undo();
-        history= new LinkedList<>();
+        redo= new LinkedList<>();
         Calendar date= Calendar.getInstance();
         int sdate= date.get(Calendar.DAY_OF_MONTH);
         if(datepay!=sdate){
             datepay=sdate;
-            rUndo.Salvesalary(Undo.PAY, employeelist);
+            Undo sundo= new SalveDayPay(8, employeelist);      
+            undo.add(sundo);
             System.out.println(Color.YELLOW+"The employees who will be paid today will be shown below:"+Color.RESET);
             payFunction.payment(employeelist);
             System.out.println(Color.YELLOW+"End of today's payment list\n"+Color.RESET);
@@ -308,171 +319,26 @@ public class EmployeeList {
         payFunction.addSchedule(schedule);
     }
     public void undo(){
-        int idsyn;
-        if(rUndo.list()==false){
+        if(undo.isEmpty()){
             System.out.println(Color.RED+"You undid all the actions."+Color.RESET);
             return;
         }
         rundo=true;
-        history.add(rUndo.getLast());
-        switch (rUndo.getSoption()){
-            case Undo.NEWEMP:
-                if(rUndo.getSemployee().getSyndicate()==true){
-                    AuxRedo.redoEmployeesynd(reUndo, rUndo.getLast(), syndicatelist);
-                    idsyn=AuxEmployee.SeachSyndicate(syndicatelist, rUndo.getSemployee());
-                    syndicatelist.remove(idsyn);
-                    employeelist.remove(rUndo.getSemployee());
-                }
-                else{
-                    AuxRedo.redoEmployee(reUndo, rUndo.getLast());
-                    employeelist.remove(rUndo.getSemployee());
-                }
-                rUndo.removelast();
-                break;
-            case Undo.REMOVEEMP:
-                AuxRedo.redoEmployee(reUndo, rUndo.getLast());
-                if(rUndo.getSemployee().getSyndicate()==true){
-                    AuxEmployee.AddSyndicate(rUndo.getSemployee(), syndicatelist, rUndo.getIdsyn());
-                    employeelist.add(rUndo.getSemployee());
-                }
-                else{
-                    employeelist.add(rUndo.getSemployee());
-                }
-                rUndo.removelast();
-                break;
-            case Undo.TIME:
-                AuxRedo.redotime(reUndo, rUndo.getLast());
-                rUndo.undoTime();
-                break;
-
-            case Undo.COMISSION:
-                AuxRedo.redcommssion(reUndo, rUndo.getLast());
-                rUndo.undocomission();
-                break;
-            case Undo.TAXSERVICE:
-                AuxRedo.redtax(reUndo, rUndo.getLast());
-                rUndo.undotaxService();
-                break;
-            case Undo.CHANGERNAME:
-                AuxRedo.redname(reUndo, rUndo.getLast());
-                rUndo.undoname();
-                break;
-            case Undo.CHANGERADRESS:
-                AuxRedo.redadress(reUndo, rUndo.getLast());
-                rUndo.undoadress();
-                break;
-            case Undo.CHANGERTYPE:
-                AuxRedo.redtype(reUndo, employeelist, rUndo.getLast());
-                rUndo.undotype(employeelist, syndicatelist);
-                break;
-            case Undo.CHANGERPAY:
-                AuxRedo.redpay(reUndo, rUndo.getLast());
-                rUndo.undopayment();
-                break;
-            case Undo.CHANGERSYND:
-                
-                if(rUndo.getSemployee().getSyndicate()==true){
-                    AuxRedo.redoEmployeesynd(reUndo, rUndo.getLast(), syndicatelist);
-                    AuxEmployee.RemoveSyndicate(rUndo.getSemployee(), syndicatelist);
-                    rUndo.removelast();
-                }
-                else{
-                    AuxRedo.redoEmployee(reUndo, rUndo.getLast());
-                    AuxEmployee.AddSyndicate(rUndo.getSemployee(), syndicatelist, rUndo.getIdsyn());
-                    rUndo.removelast();
-                }
-                break;
-            case Undo.CHANGERIDSYN:
-                AuxRedo.rediddyn(reUndo, rUndo.getLast(), syndicatelist);
-                rUndo.undoidsyn(syndicatelist);
-                break;
-            case Undo.CHANGERTAXSYND:
-                AuxRedo.redtaxsyn(reUndo, rUndo.getLast());
-                rUndo.undotaxsynd();
-                break;
-            case Undo.PAY:
-                rUndo.undosalary(employeelist);
-                datepay=-1;
-                break;
-            default:
-                System.out.println(Color.RED+"Something went wrong, you will return to the menu."+Color.RESET);
-                return;
-        }
+        Undo sredo=null;
+        sredo = undo.getLast().execute(sredo, employeelist, syndicatelist);
+        redo.add(sredo);
+        Hrundo.add(undo.removeLast());
         System.out.println(Color.GREEN+"Your last action was successfully undone."+Color.RESET);
     }
     public void redo(){
         int idsyn;
-        if(reUndo.list()==false || rundo==false){
+        if(redo.isEmpty() || rundo==false){
             System.out.println(Color.RED+"You've redo all the actions"+Color.RESET);
             return;
         }
-        rUndo.addHistory(history.getLast());
-        history.removeLast();
-        switch (reUndo.getSoption()){
-            case Undo.NEWEMP:
-                if(reUndo.getSemployee().getSyndicate()==true){
-                    AuxEmployee.AddSyndicate(reUndo.getSemployee(), syndicatelist, reUndo.getIdsyn());
-                }
-                employeelist.add(reUndo.getSemployee());
-                reUndo.removelast();
-                break;
-            case Undo.REMOVEEMP:
-
-                if(reUndo.getSemployee().getSyndicate()==true){
-                    idsyn=AuxEmployee.SeachSyndicate(syndicatelist, reUndo.getSemployee());
-                    syndicatelist.remove(idsyn);
-                }
-                else{
-                    employeelist.remove(reUndo.getSemployee());
-                }
-                reUndo.removelast();
-                break;
-            case Undo.TIME:
-
-                reUndo.redotime();
-                break;
-
-            case Undo.COMISSION:
-                reUndo.undocomission();
-                break;
-            case Undo.TAXSERVICE:
-                reUndo.undotaxService();
-                break;
-            case Undo.CHANGERNAME:
-                reUndo.undoname();
-                break;
-            case Undo.CHANGERADRESS:
-                reUndo.undoadress();
-                break;
-            case Undo.CHANGERTYPE:
-                reUndo.undotype(employeelist, syndicatelist);
-                break;
-            case Undo.CHANGERPAY:
-                reUndo.undopayment();
-                break;
-            case Undo.CHANGERSYND:
-                if(rUndo.getSemployee().getSyndicate()==true){
-                    AuxEmployee.RemoveSyndicate(reUndo.getSemployee(), syndicatelist);
-                    reUndo.removelast();
-                }
-                else{
-                    AuxEmployee.AddSyndicate(reUndo.getSemployee(), syndicatelist, reUndo.getIdsyn());
-                    reUndo.removelast();
-                }
-                break;
-            case Undo.CHANGERIDSYN:
-                reUndo.undoidsyn(syndicatelist);
-                break;
-            case Undo.CHANGERTAXSYND:
-                reUndo.undotaxsynd();
-                break;
-            case Undo.PAY:
-                pay();
-                break;
-            default:
-                System.out.println(Color.RED+"Something went wrong, you will return to the menu."+Color.RESET);
-                return;
-        }
+        redo.getLast().execute(employeelist, syndicatelist);
+        redo.removeLast();
+        undo.add(Hrundo.removeLast());
         System.out.println(Color.GREEN+"Your last action was successfully redone."+Color.RESET);
     }
 

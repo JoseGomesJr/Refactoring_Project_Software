@@ -1,3 +1,5 @@
+package App;
+
 import java.util.*;
 
 public class PayDay {

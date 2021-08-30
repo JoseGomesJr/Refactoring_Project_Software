@@ -1,3 +1,5 @@
+package App;
+
 public class Syndicate {
     private Employee unionlist;
     private int id;

@@ -1,3 +1,5 @@
+package App;
+
 public class Salaried extends Employee {
     private Double monthly_salary;
     Salaried(String name, String adress, int id, Double salary, Double taxSyndicate){
