@@ -8,7 +8,7 @@
 Métodos:
  [ChangerEmployee()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/EmployeeList.java#L178), [undo()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/EmployeeList.java#L310) e [redo()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/EmployeeList.java#L403) muito extensos, com muitos ifs e elses.
 
- Para resolver esses problemas foi usado o padrões complexos usando polimorfismo e hierarquia.
+ Para resolver esses problemas foi usado o padrões complexos usando polimorfismo e hierarquia. Foi criada uma interface com o metetodo execute(), depois para cada tomada de decisão principal foi criada uma classe que implementa a interface dessa forma o codigo pode tomar diferentes comportamentos.
 
  Metodos refatorados:
 
