@@ -14,7 +14,7 @@ Métodos:
 
 ## Feature Envy
 
--Na classe [Undo](https://github.com/JoseGomesJr/Projeto_de_Software/blob/main/src/Undo.java)
+- Na classe [Undo](https://github.com/JoseGomesJr/Projeto_de_Software/blob/main/src/Undo.java)
 Métodos:
  [undotime()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/Undo.java#L119), [redotime()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/Undo.java#L139) , [undotype()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/Undo.java#L187).
 
@@ -24,7 +24,7 @@ Métodos:
 
 ## Speculative generality
 
--Na classe [AuxEmployee](https://github.com/JoseGomesJr/Projeto_de_Software/blob/main/src/AuxEmployee.java)
+- Na classe [AuxEmployee](https://github.com/JoseGomesJr/Projeto_de_Software/blob/main/src/AuxEmployee.java)
 Métodos:
  [day()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/AuxEmployee.java#L142).
 
