@@ -5,11 +5,11 @@ import java.util.*;
 import App.Employee;
 import App.Syndicate;
 
-public class SalveIDSyn extends Undo {
+public class SalveIDSyn implements Undo {
     public  History hist;
-    public SalveIDSyn(int option, int idsyn, int sobj){
+    public SalveIDSyn( int idsyn, int sobj){
         hist= new History();
-        hist.soption= option;
+        
         hist.idsyn= idsyn;
         hist.sobj= sobj;
 

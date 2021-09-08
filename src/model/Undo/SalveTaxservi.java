@@ -5,11 +5,10 @@ import java.util.List;
 import App.Employee;
 import App.Syndicate;
 
-public class SalveTaxservi extends Undo {
+public class SalveTaxservi implements Undo {
     History hist;
-    public SalveTaxservi(int option, Double tax, Employee employee){
+    public SalveTaxservi( Double tax, Employee employee){
         hist= new History();
-        hist.soption=option;
         hist.semployee= employee;
         hist.spay= tax;
         

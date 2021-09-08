@@ -7,29 +7,31 @@ public class PayFunction {
     private PaymentMethod pMethod;
     private PayDay pay= new PayDay();
 
-    public PaymentMethod AddMethod(){
+    public static PaymentMethod AddMethod(){
+        PaymentMethod pMethod= new PaymentMethod("Know");
         Scanner input= new Scanner(System.in);
         System.out.printf("Select a payment method:\n1-Check by post\n2-Check in hand\n3-Bank Account\n");
         int nSelect= input.nextInt();
         switch (nSelect) {
             case 1:
-                this.pMethod= new PaymentMethod("Check by post");
+                pMethod= new PaymentMethod("Check by post");
                 break;
                 
             case 2:
-                this.pMethod= new PaymentMethod("Check in hand");
+                pMethod= new PaymentMethod("Check in hand");
                 break;
                 
             case 3:
-                PayBanck();
+                pMethod= PayBanck();
                 break;
                     
             default:
             break;
         }
-       return this.pMethod;
+       return pMethod;
     }
-    private void PayBanck(){
+    private static PaymentMethod PayBanck(){
+        PaymentMethod pMethod;
         Scanner input= new Scanner(System.in);
         System.out.println("Inform the bank account where the amount will be deposited:");
         System.out.println("Bank name:");
@@ -38,7 +40,7 @@ public class PayFunction {
         String typeAccount = input.nextLine();
         System.out.println("Number Account:\nAccount number must be a number");
         int numbeAccount= input.nextInt();
-        this.pMethod= new PaymentMethod("Bank Account", numbeAccount, nameBank, typeAccount);
+        return pMethod= new PaymentMethod("Bank Account", numbeAccount, nameBank, typeAccount);
     }
     public void Schedule(PaymentMethod payment, String type){
         //PayDay pay= new PayDay();

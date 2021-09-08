@@ -7,7 +7,7 @@ public class Commissioned extends Employee {
     private Double commission;
     private Double comissionTotal;
     private ArrayList<String> dates= new ArrayList<>();
-    Commissioned(String name, String adress, int id, Double salary, Double commission, Double taxSyndicate)
+    public Commissioned(String name, String adress, int id, Double salary, Double commission, Double taxSyndicate)
     {
         super(name, adress, id, taxSyndicate);
         this.monthly_salary= salary;
@@ -47,12 +47,9 @@ public class Commissioned extends Employee {
     }
     public Double payMent(int division) {
         Double paytotal= (monthly_salary/division)-((monthly_salary/division)*(this.getTaxSyndicate()/100));
-        if(this.getTaxService()!=0){
-         paytotal= paytotal-(paytotal*(this.getTaxService()/100));
-        }
+        paytotal= taxservDouble(paytotal);
         paytotal+=comissionTotal;
         this.comissionTotal=0d;
-        this.setTaxService(0d);
         return paytotal;
         
     }

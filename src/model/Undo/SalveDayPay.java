@@ -4,11 +4,11 @@ import java.util.*;
 
 import App.*;
 
-public class SalveDayPay extends Undo {
+public class SalveDayPay implements Undo {
     History hist;
-    public SalveDayPay(int option,List<Employee> employeelist){
+    public SalveDayPay(List<Employee> employeelist){
         hist= new History();
-        hist.soption=option;
+        
         hist.comission= new ArrayList<>();
         hist.payhour= new ArrayList<>();
         hist.taxservice= new ArrayList<>();
@@ -66,7 +66,7 @@ public class SalveDayPay extends Undo {
     @Override
     public Undo execute(Undo reUndo, List<Employee> employees, List<Syndicate> syndicates){
         this.Undo_Redo(employees);
-        return new SalveDayPay(hist.soption,employees);
+        return new SalveDayPay(employees);
     }
     @Override
     public void execute(List<Employee> employees, List<Syndicate> syndicates){

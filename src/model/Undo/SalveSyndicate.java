@@ -4,13 +4,12 @@ import java.util.List;
 import App.AuxEmployee;
 import App.Employee;
 import App.Syndicate;
-public class SalveSyndicate extends Undo {
+public class SalveSyndicate implements Undo {
     protected History hist;
-    public AuxEmployee AuxEmployee;
-    public SalveSyndicate(int option, Employee nEmployee, int idsyn){
+    public SalveSyndicate( Employee nEmployee, int idsyn){
         hist= new History();
         hist.semployee= nEmployee;
-        hist.soption= option;
+       
         hist.idsyn= idsyn;
         
     }

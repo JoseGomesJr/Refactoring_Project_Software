@@ -5,11 +5,10 @@ import java.util.List;
 import App.Employee;
 import App.Syndicate;
 
-public class SalveName extends Undo {
+public class SalveName implements Undo {
     protected History hist;
-    public SalveName(int option, String name, Employee employee){
+    public SalveName(String name, Employee employee){
         hist= new History();
-        hist.soption= option;
         hist.sname= name;
         hist.semployee= employee;
         

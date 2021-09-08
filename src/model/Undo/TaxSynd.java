@@ -5,11 +5,10 @@ import java.util.List;
 import App.Employee;
 import App.Syndicate;
 
-public class TaxSynd extends Undo {
+public class TaxSynd implements Undo {
     History hist;
-    public TaxSynd(int option, Double tax, Employee employee){
+    public TaxSynd( Double tax, Employee employee){
         hist= new History();
-        hist.soption=option;
         hist.semployee= employee;
         hist.spay= tax;
         

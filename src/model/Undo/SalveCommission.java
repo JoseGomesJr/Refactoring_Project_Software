@@ -4,11 +4,11 @@ import java.util.*;
 import App.Employee;
 import App.Syndicate;
 import App.Commissioned;
-public class SalveCommission extends Undo{
+public class SalveCommission implements Undo{
     protected History hist;
-    public SalveCommission(int option, Double comission, List<String> date, Employee employee){
+    public SalveCommission( Double comission, List<String> date, Employee employee){
         hist= new History();
-        hist.soption=option;
+        
         hist.commission= comission;
         hist.date= date;
         hist.semployee= employee;

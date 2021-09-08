@@ -1,12 +1,12 @@
 package App;
 
+import java.time.LocalTime;
 import java.util.*;
 
 import model.Undo.*;
 public class AuxEmployee {
-    private Random gerador = new Random(19904522);
-    private int random;
-    public int SeachEmployee (String name, List<Employee> employees){
+    private static Random gerador = new Random(19904522);
+    public static int SeachEmployee (String name, List<Employee> employees){
         int posi=0, local=0;
         int aux[]= new int[employees.size()];
         Scanner input= new Scanner(System.in);
@@ -41,7 +41,7 @@ public class AuxEmployee {
         }
 
     }
-    public int SeachEmployee (int id, List<Employee> employees){
+    public static int SeachEmployee (int id, List<Employee> employees){
         int posi=0, aux=-1;
         for(Employee employee: employees)
         {
@@ -55,7 +55,7 @@ public class AuxEmployee {
         return aux;
     }
 
-    public int CheckEmployees( List<Employee> employees, String name){
+    public static int CheckEmployees( List<Employee> employees, String name){
         Scanner input= new Scanner(System.in);
         int aux=SeachEmployee(name, employees);
         if(aux==-1){
@@ -79,7 +79,7 @@ public class AuxEmployee {
         return -1;
 
     }
-    public int CheckEmployees(List<Employee> employees, int id){
+    public static int CheckEmployees(List<Employee> employees, int id){
         Scanner input= new Scanner(System.in);
         int aux=SeachEmployee(id, employees);
         if(aux==-1){
@@ -102,7 +102,7 @@ public class AuxEmployee {
         return -1;
 
     }
-    public void AddSyndicate(Employee employee, List<Syndicate> syndicates){
+    public static void AddSyndicate(Employee employee, List<Syndicate> syndicates){
         Scanner input= new Scanner(System.in);
         Syndicate unionlist;
         System.out.println("Is the new employee part of the union?\n1-Yes\n2-No");
@@ -115,7 +115,7 @@ public class AuxEmployee {
            syndicates.add(unionlist);
         }
     }
-    public Undo AddTimecard(List<Employee> employees, int id, Undo rUndo){
+    public static Undo AddTimecard(List<Employee> employees, int id, Undo rUndo){
         Scanner input= new Scanner(System.in);
         if(employees.get(id).typeEmployee().equals("Hourly"))
         {
@@ -124,13 +124,13 @@ public class AuxEmployee {
             int nSelect= input.nextInt();
             switch (nSelect) {
                 case 1:
-                    rUndo= new SalveTime(Undo.TIME, 0d, employees.get(id), nSelect);
+                    rUndo= new SalveTime( 0d, employees.get(id), nSelect);
                    
                     ((Hourly)employees.get(id)).setEntryCard();
                     System.out.println(Color.GREEN+"Registered entry. Good work!"+Color.RESET);
                     return rUndo;
                 case 2:
-                    rUndo= new SalveTime(Undo.TIME, ((Hourly)employees.get(id)).getPay(), employees.get(id), nSelect);
+                    rUndo= new SalveTime( ((Hourly)employees.get(id)).getPay(), employees.get(id), nSelect);
                     
                     ((Hourly)employees.get(id)).setExitCard();
                     ((Hourly)employees.get(id)).setHoursDay();
@@ -146,19 +146,14 @@ public class AuxEmployee {
         }
         return rUndo;
     }
-    public int day(){
-        Calendar calendar= Calendar.getInstance();
-        int day=calendar.get(Calendar.DAY_OF_WEEK);
-        return day;
-    }
-    public void Printcard(List<Employee> employees, int id){
+    public static void Printcard(List<Employee> employees, int id){
         if(employees.get(id).typeEmployee().equals("Hourly"))
         {
            ((Hourly)employees.get(id)).Cardinf();
         }
         return;
     }
-    public int SearchEmployeeList(List<Employee> employeelist){
+    public static int SearchEmployeeList(List<Employee> employeelist){
         Scanner input= new Scanner(System.in);
         int id=-1;
         System.out.println("Select a form of identification:\n1-id\n2-Name");
@@ -184,7 +179,7 @@ public class AuxEmployee {
         }
         return id;
     }
-    public int SeachSyndicate(List<Syndicate> syndicates, Employee employee){
+    public static int SeachSyndicate(List<Syndicate> syndicates, Employee employee){
         int posi=0, aux=-1;
         for(Syndicate syndicate : syndicates)
         {
@@ -197,13 +192,13 @@ public class AuxEmployee {
         } 
         return aux;
     }
-    public void AddSyndicate(Employee employee, List<Syndicate> syndicates, int id){
+    public static void AddSyndicate(Employee employee, List<Syndicate> syndicates, int id){
         Syndicate unionlist;
         employee.setSyndicate(true);
         unionlist= new Syndicate(employee, id);
         syndicates.add(unionlist);
     }
-    public void RemoveSyndicate(Employee employee, List<Syndicate> syndicates){
+    public static void RemoveSyndicate(Employee employee, List<Syndicate> syndicates){
         employee.setSyndicate(false);
         int aux= SeachSyndicate(syndicates, employee);
         if(aux!=-1){
@@ -213,7 +208,7 @@ public class AuxEmployee {
             System.out.println(Color.RED+"The data entered is not associated with any unionist"+Color.RESET);
         }
     }
-    public int random(List<Integer> randons){
+    public static int random(List<Integer> randons){
         int random= gerador.nextInt(189773);
         for(Integer num: randons){
             if(random == ((int) num)){
@@ -223,6 +218,72 @@ public class AuxEmployee {
         }
         randons.add(random);
         return random;
+    }
+    public static void reAdd(int soption, Employee semployee, List<Syndicate> syndicatelist, List<Employee> employees, int idsyn){
+        if(soption==1){ 
+            employees.remove(semployee);
+            if(semployee.getSyndicate()==true){
+                AuxEmployee.RemoveSyndicate(semployee, syndicatelist);
+            }
+            
+        }
+        else{
+            employees.add(semployee);
+            if(semployee.getSyndicate()){
+                AuxEmployee.AddSyndicate(semployee, syndicatelist,idsyn);
+            }
+        }
+    }
+    public static void AddTimecard(int sobj, Employee semployee, Date datehours, LocalTime datetimehours, Double spay){
+        if(sobj==1){
+            if(semployee.typeEmployee().equals("Hourly")){
+                ((Hourly)semployee).getCard().setDate(datehours);
+                ((Hourly)semployee).getCard().setEntraDate(datetimehours);
+            }else{
+                System.out.println("Something went wrong!");
+            }
+        }
+        else if(sobj==2){
+            if(semployee.typeEmployee().equals("Hourly")){
+                ((Hourly)semployee).getCard().setExitdate(datehours);
+                ((Hourly)semployee).getCard().setExiDate(datetimehours);
+                ((Hourly)semployee).setPay(spay);
+                spay=0d;
+            }else{
+                System.out.println("Something went wrong!");
+            }
+        }
+    }
+    public static void AddTimecard(int sobj, Employee semployee, Double spay){
+        if(sobj==1){
+            if(semployee.typeEmployee().equals("Hourly")){
+                ((Hourly)semployee).resetEntry();
+            }else{
+                System.out.println("Something went wrong!");
+            }
+        }
+        else if(sobj==2){
+            if(semployee.typeEmployee().equals("Hourly")){
+                ((Hourly)semployee).resetExit();
+                ((Hourly)semployee).setPay(spay);
+                spay=0d;
+            }else{
+                System.out.println("Something went wrong!");
+            }
+        }
+    }
+    public static void reAdd(List<Employee> employees, List<Syndicate> syndicates, Employee semployee){
+        int posi=0;
+        posi= SeachEmployee(semployee.getId(), employees);
+        if(posi!=-1){
+            employees.remove(posi);
+            employees.add(posi, semployee);
+        }
+        posi=SeachSyndicate(syndicates, semployee);
+        if(posi!=-1){
+
+            syndicates.get(posi).setUnionlist(semployee);
+        }
     }
     
 }

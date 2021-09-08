@@ -51,12 +51,9 @@ public class Hourly extends Employee {
     public Double payMent(int division) {
 
        Double paytotal= pay-(pay*(this.getTaxSyndicate()/100d));
-       if(this.getTaxService()!=0){
-        paytotal= paytotal-(paytotal*(this.getTaxService()/100d));
-       }
+       paytotal= taxservDouble(paytotal);
        this.hoursDay=0d;
        this.pay=0d;
-       this.setTaxService(0d);
        return paytotal;
     }
     public Double getPay() {

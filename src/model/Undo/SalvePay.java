@@ -6,11 +6,10 @@ import App.Employee;
 import App.PaymentMethod;
 import App.Syndicate;
 
-public class SalvePay extends Undo {
+public class SalvePay implements Undo {
     protected History hist;
-    public SalvePay(int option, PaymentMethod pay, Employee employee){
+    public SalvePay( PaymentMethod pay, Employee employee){
         hist= new History();
-        hist.soption=option;
         hist.semployee= employee;
         hist.spayment= pay;
         

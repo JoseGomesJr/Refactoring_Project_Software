@@ -1,21 +1,14 @@
-package App;
+package App.ChangerEmployee;
 
 import java.util.*;
-public class ChangeEmployee {
-    private AuxEmployee AuxEmployee= new AuxEmployee();
-    public void ChangeName(Employee employee){
-        Scanner input= new Scanner(System.in);
-        System.out.println("Write the new name:");
-        String name= input.nextLine();
-        employee.setName(name);
-    }
-    public void ChangeAdress(Employee employee){
-        Scanner input= new Scanner(System.in);
-        System.out.println("Write the new address:");
-        String adress= input.nextLine();
-        employee.setAdress(adress);
-    }
-    public Employee ChangerTypeEmployee(Employee employee){
+import java.util.Scanner;
+
+import App.*;
+import model.Undo.*;
+
+public class ChangerTypeEmployee implements Changer {
+
+    private Employee ChangerTypeEmployees(Employee employee){
         Scanner input= new Scanner(System.in);
         PaymentMethod auxPay= employee.getPayment();
         System.out.println("Select the new employee type:\n1-Hourly\n2-Salaried\n3-Commissioned");
@@ -64,19 +57,26 @@ public class ChangeEmployee {
         if(employeelist.get(idname).getSyndicate()==false){
             employee=employeelist.get(idname);
             employeelist.remove(idname);
-            employeelist.add(idname, ChangerTypeEmployee(employee));
+            employeelist.add(idname, ChangerTypeEmployees(employee));
         }
         else{
              int id= AuxEmployee.SeachSyndicate(syndicatelist, employeelist.get(idname));
              employee=employeelist.get(idname);
              employeelist.remove(idname);
-             employeelist.add(idname, ChangerTypeEmployee(employee));
+             employeelist.add(idname, ChangerTypeEmployees(employee));
              if(id!=-1) {
                  int idsyndicate=syndicatelist.get(id).getId();
                  syndicatelist.remove(id);
                  AuxEmployee.AddSyndicate(employeelist.get(idname), syndicatelist, idsyndicate);
              }
         }
+    }
+    @Override
+    public void execute(List<Employee> employeelist, List<Syndicate> syndicates, Action_Undo action_Undo, int idname){
+        Undo sundo;
+        sundo= new SalveTypeEmployee( employeelist.get(idname));
+        action_Undo.setUndo(sundo);
+        Changer(idname, employeelist, syndicates);
     }
     
 }

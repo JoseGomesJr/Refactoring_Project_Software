@@ -64,5 +64,12 @@ public abstract class Employee {
     public String printInfo(){
         return "Name Employee: "+name+"\nAdress Employee: "+adress+"\nID Employee: "+id+"\nType Employee: "+this.typeEmployee()+"\n";
     }
+    public Double taxservDouble(Double paytotal){
+        if(this.getTaxService()!=0){
+            paytotal= paytotal-(paytotal*(this.getTaxService()/100));
+        }
+        this.setTaxService(0d);
+        return paytotal;
+    }
     public abstract Double payMent(int division);
 }
