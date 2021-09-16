@@ -11,7 +11,7 @@ Métodos:
  Para resolver esses problemas foi usado o padrões complexos usando polimorfismo e hierarquia. Foi criada uma interface com o metetodo execute(), depois para cada tomada de decisão principal foi criada uma classe que implementa a interface dessa forma o codigo pode tomar diferentes comportamentos.
 
  Metodos refatorados:
- [ChangerEmployee()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/App/EmployeeList.java#L185), [undo()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/App/EmployeeList.java#L236) e [redo()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/App/EmployeeList.java#L244) muito extensos, com muitos ifs e elses.
+ [ChangerEmployee()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/App/EmployeeList.java#L185), [undo()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/App/EmployeeList.java#L236) e [redo()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/App/EmployeeList.java#L244).
 
 
 ## Feature Envy
