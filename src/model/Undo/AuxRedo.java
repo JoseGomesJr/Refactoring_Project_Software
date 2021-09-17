@@ -1,9 +1,9 @@
 package model.Undo;
-import App.Employee;
+import model.Employee.Commissioned;
+import model.Employee.Employee;
+import model.Employee.Hourly;
+import model.Syndicate.Syndicate;
 
-import App.Hourly;
-import App.Commissioned;
-import App.Syndicate;
 import java.util.*;
 public class AuxRedo {
     public Undo redoEmployee(Undo reUndo, History hist){
@@ -42,7 +42,7 @@ public class AuxRedo {
     }
     public Undo redadress(Undo reUndo, History hist)
     {
-        return reUndo= new Salveadress( hist.semployee.getName(), hist.semployee);
+        return reUndo= new Salveadress( hist.semployee.getAdress(), hist.semployee);
     }
     public Undo redtype(Undo reUndo, List<Employee> employees, History hist){
         for(Employee employee: employees){

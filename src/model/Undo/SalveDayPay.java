@@ -3,6 +3,11 @@ package model.Undo;
 import java.util.*;
 
 import App.*;
+import model.Employee.Commissioned;
+import model.Employee.Employee;
+import model.Employee.Hourly;
+import model.Pays.PayFunction;
+import model.Syndicate.Syndicate;
 
 public class SalveDayPay implements Undo {
     History hist;

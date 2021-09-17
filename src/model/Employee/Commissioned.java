@@ -1,13 +1,15 @@
-package App;
+package model.Employee;
 
 import java.util.*;
+
+import App.utils.Adress;
 
 public class Commissioned extends Employee {
     private Double monthly_salary;
     private Double commission;
     private Double comissionTotal;
     private ArrayList<String> dates= new ArrayList<>();
-    public Commissioned(String name, String adress, int id, Double salary, Double commission, Double taxSyndicate)
+    public Commissioned(String name, Adress adress, int id, Double salary, Double commission, Double taxSyndicate)
     {
         super(name, adress, id, taxSyndicate);
         this.monthly_salary= salary;

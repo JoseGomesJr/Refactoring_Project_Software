@@ -2,9 +2,9 @@ package App.ChangerEmployee;
 
 import java.util.*;
 import App.AuxEmployee;
-import App.Color;
-import App.Employee;
-import App.Syndicate;
+import App.utils.Color;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 public class ActionChanger {

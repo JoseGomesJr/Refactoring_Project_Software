@@ -2,10 +2,10 @@ package model.Undo;
 
 import java.util.LinkedList;
 import java.util.List;
-import App.Employee;
-import App.Syndicate;
 
-import App.Color;
+import App.utils.Color;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 
 public class Action_Undo {
 

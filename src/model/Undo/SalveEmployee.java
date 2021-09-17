@@ -3,8 +3,8 @@ package model.Undo;
 import java.util.List;
 
 import App.AuxEmployee;
-import App.Employee;
-import App.Syndicate;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 
 public class SalveEmployee implements Undo {
     protected History hist;

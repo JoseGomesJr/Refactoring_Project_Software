@@ -2,6 +2,9 @@ package App.ChangerEmployee;
 import java.util.*;
 
 import App.*;
+import model.Employee.Employee;
+import model.Pays.PayFunction;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 public class ChangerPay implements Changer {

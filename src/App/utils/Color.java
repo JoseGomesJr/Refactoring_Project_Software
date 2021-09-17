@@ -1,4 +1,4 @@
-package App;
+package App.utils;
 
 public class Color {
      // Reset

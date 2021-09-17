@@ -20,7 +20,7 @@ Métodos:
 Métodos:
  [undotime()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/Undo.java#L119), [redotime()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/Undo.java#L139) , [undotype()](https://github.com/JoseGomesJr/Projeto_de_Software/blob/12b43ab611548100b7988f6bff4c6cf3553b7d8b/src/Undo.java#L187).
 
- Esses metodos na classe Undo usa mais atributos e métodos da classe EmloyeeList e AuxEmployee. Foi usado um Move Method para a classe AuxEmployee.
+ Esses metodos na classe Undo usa mais atributos e métodos da classe EmployeeList e AuxEmployee. Foi usado um Move Method para a classe AuxEmployee.
 
  Metodos refatorados em suas respectivas classes:
  [undotime()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/model/Undo/SalveTime.java#L34), [redotime()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/model/Undo/SalveTime.java#L38) , [undotype()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/5b8ce8422bbaa035fe22780078e8c3d491155eda/src/model/Undo/SalveCommission.java#L17).
@@ -36,3 +36,6 @@ Métodos:
 ## Codigo Repetido
  Método payMent() nas classes Comissioned, Hourly e Salaried apresenta o código com similaridades entre si.
  Para corrigir foi usado Extract Method para os passos comum aos métodos. Na classe "pai" Employee.
+
+## Primitive obcession
+ O atributo address na classe Employee está sendo tratado como uma string. Replace data value with object, criar um objeto endereço associado à classe empregado com todos os atributos necessários.

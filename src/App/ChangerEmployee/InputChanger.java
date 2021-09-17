@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import App.Color;
+import App.utils.Color;
 
 public class InputChanger {
     private Changer actions;

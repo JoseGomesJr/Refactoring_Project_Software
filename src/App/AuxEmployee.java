@@ -3,6 +3,11 @@ package App;
 import java.time.LocalTime;
 import java.util.*;
 
+import App.utils.Adress;
+import App.utils.Color;
+import model.Employee.Employee;
+import model.Employee.Hourly;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 public class AuxEmployee {
     private static Random gerador = new Random(19904522);
@@ -199,7 +204,6 @@ public class AuxEmployee {
         syndicates.add(unionlist);
     }
     public static void RemoveSyndicate(Employee employee, List<Syndicate> syndicates){
-        employee.setSyndicate(false);
         int aux= SeachSyndicate(syndicates, employee);
         if(aux!=-1){
             syndicates.remove(aux);
@@ -284,6 +288,19 @@ public class AuxEmployee {
 
             syndicates.get(posi).setUnionlist(semployee);
         }
+    }
+    public static Adress addAdress(){
+        Scanner input= new Scanner(System.in);
+        System.out.println("City:");
+        String city= input.nextLine();
+        System.out.println("Street:");
+        String street= input.nextLine();
+        System.out.println("District:");
+        String district=input.nextLine();
+        System.out.println("House number:");
+        int number= input.nextInt();
+        Adress adress= new Adress(city, street, number, district);
+        return adress;
     }
     
 }

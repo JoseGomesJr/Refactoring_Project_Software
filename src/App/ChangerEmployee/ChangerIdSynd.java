@@ -4,6 +4,9 @@ import java.util.*;
 import java.util.Scanner;
 
 import App.*;
+import App.utils.Color;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 public class ChangerIdSynd implements Changer {

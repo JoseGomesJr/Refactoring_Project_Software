@@ -2,8 +2,8 @@ package model.Undo;
 
 import java.util.List;
 
-import App.Employee;
-import App.Syndicate;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 
 public class TaxSynd implements Undo {
     History hist;

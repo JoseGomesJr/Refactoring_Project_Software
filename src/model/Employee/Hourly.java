@@ -1,4 +1,7 @@
-package App;
+package model.Employee;
+
+import App.utils.Adress;
+import App.utils.TimeCard;
 
 public class Hourly extends Employee {
     private Double hours;
@@ -6,7 +9,7 @@ public class Hourly extends Employee {
     private Double hoursDay;
     private Double pay;
     private TimeCard card= new TimeCard();
-    public Hourly(String name, String adress, int id, Double hours, Double taxSyndicate){
+    public Hourly(String name, Adress adress, int id, Double hours, Double taxSyndicate){
         super(name, adress, id, taxSyndicate);
         this.hours=hours;
         this.taxhours=1.5;

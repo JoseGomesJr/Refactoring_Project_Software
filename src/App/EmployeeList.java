@@ -3,6 +3,14 @@ package App;
 import java.util.*;
 
 import App.ChangerEmployee.*;
+import App.utils.Adress;
+import App.utils.Color;
+import model.Employee.Commissioned;
+import model.Employee.Employee;
+import model.Employee.Hourly;
+import model.Employee.Salaried;
+import model.Pays.PayFunction;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 
@@ -27,7 +35,7 @@ public class EmployeeList {
         String name= input.nextLine();
 
         System.out.println("Employer's Adress");
-        String adress= input.nextLine();
+        Adress adress= AuxEmployee.addAdress();
         System.out.println("Union fee to be charged.");
         Double taxSyndicate= input.nextDouble();
         int id= AuxEmployee.random(randons);

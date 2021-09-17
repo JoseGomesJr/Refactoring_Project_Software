@@ -2,11 +2,14 @@ package model.Undo;
 
 import java.util.*;
 
-import App.Employee;
-import App.PaymentMethod;
+import App.utils.Adress;
+import model.Employee.Employee;
+import model.Pays.PaymentMethod;
+
 import java.time.LocalTime;
 public class History {
     protected Employee semployee;
+    protected Adress adress;
     protected String sname;
     protected int sobj;
     protected int soption;

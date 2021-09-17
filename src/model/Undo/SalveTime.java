@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import App.AuxEmployee;
-import App.Employee;
-import App.Syndicate;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 public class SalveTime implements Undo {
     History hist;
     public SalveTime(Double pay, Employee employee, int aux){

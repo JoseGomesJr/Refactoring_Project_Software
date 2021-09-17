@@ -2,9 +2,9 @@ package model.Undo;
 
 import java.util.List;
 
-import App.Employee;
-import App.PaymentMethod;
-import App.Syndicate;
+import model.Employee.Employee;
+import model.Pays.PaymentMethod;
+import model.Syndicate.Syndicate;
 
 public class SalvePay implements Undo {
     protected History hist;

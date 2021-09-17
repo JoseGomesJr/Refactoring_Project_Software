@@ -1,7 +1,10 @@
-package App;
+package model.Pays;
 
 import java.time.LocalDate;
 import java.util.*;
+
+import App.utils.Color;
+import model.Employee.Employee;
 
 public class PayFunction {
     private PaymentMethod pMethod;

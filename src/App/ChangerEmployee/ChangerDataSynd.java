@@ -4,6 +4,9 @@ import java.util.*;
 import java.util.Scanner;
 
 import App.*;
+import App.utils.Color;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 public class ChangerDataSynd implements Changer {
@@ -29,6 +32,7 @@ public class ChangerDataSynd implements Changer {
                 int id= AuxEmployee.SeachSyndicate(syndicatelist, employee);
                 sundo= new SalveSyndicate( employee, syndicatelist.get(id).getId());
                 action_Undo.setUndo(sundo);
+                employee.setSyndicate(false);
                 AuxEmployee.RemoveSyndicate(employee, syndicatelist);
             }
             

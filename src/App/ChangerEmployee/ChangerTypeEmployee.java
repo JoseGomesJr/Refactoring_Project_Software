@@ -4,6 +4,12 @@ import java.util.*;
 import java.util.Scanner;
 
 import App.*;
+import model.Employee.Commissioned;
+import model.Employee.Employee;
+import model.Employee.Hourly;
+import model.Employee.Salaried;
+import model.Pays.PaymentMethod;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 public class ChangerTypeEmployee implements Changer {

@@ -2,8 +2,8 @@ package model.Undo;
 
 import java.util.*;
 
-import App.Employee;
-import App.Syndicate;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 public interface Undo {
     AuxRedo auxRedo= new AuxRedo();
     public void execute(List<Employee> employees, List<Syndicate> syndicates);

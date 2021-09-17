@@ -1,9 +1,10 @@
 package model.Undo;
 
 import java.util.*;
-import App.Employee;
-import App.Syndicate;
-import App.Commissioned;
+
+import model.Employee.Commissioned;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 public class SalveCommission implements Undo{
     protected History hist;
     public SalveCommission( Double comission, List<String> date, Employee employee){

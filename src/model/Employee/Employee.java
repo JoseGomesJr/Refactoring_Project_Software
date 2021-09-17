@@ -1,8 +1,11 @@
-package App;
+package model.Employee;
+
+import App.utils.Adress;
+import model.Pays.PaymentMethod;
 
 public abstract class Employee {
     private String name;
-    private String adress;
+    private Adress adress;
     private int id;
     private PaymentMethod payment;
     private boolean syndicate;
@@ -10,7 +13,7 @@ public abstract class Employee {
     private Double taxService=0d;
     //private int maior=0;
 
-    Employee(String name, String adress, int id, Double taxSyndicate){
+    Employee(String name, Adress adress, int id, Double taxSyndicate){
         this.name=name;
         this.adress= adress;
         this.id= id;
@@ -20,7 +23,7 @@ public abstract class Employee {
     public void setName(String name) {
         this.name = name;
     }
-    public void setAdress(String adress) {
+    public void setAdress(Adress adress) {
         this.adress = adress;
     }
     public void setId(int id) {
@@ -32,7 +35,7 @@ public abstract class Employee {
     public String getName() {
         return this.name;
     }
-    public String getAdress() {
+    public Adress getAdress() {
         return this.adress;
     }
     public int getId() {
@@ -62,7 +65,7 @@ public abstract class Employee {
         return taxSyndicate;
     }
     public String printInfo(){
-        return "Name Employee: "+name+"\nAdress Employee: "+adress+"\nID Employee: "+id+"\nType Employee: "+this.typeEmployee()+"\n";
+        return "Name Employee: "+name+"\nAdress Employee: "+adress.getCity()+"\nID Employee: "+id+"\nType Employee: "+this.typeEmployee()+"\n";
     }
     public Double taxservDouble(Double paytotal){
         if(this.getTaxService()!=0){

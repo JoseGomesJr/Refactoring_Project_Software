@@ -1,4 +1,4 @@
-package App;
+package model.Pays;
 
 public class PayBanck {
     private int account;

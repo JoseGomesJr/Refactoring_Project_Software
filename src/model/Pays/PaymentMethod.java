@@ -1,4 +1,4 @@
-package App;
+package model.Pays;
 
 public class PaymentMethod {
     private String method;

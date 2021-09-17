@@ -2,8 +2,8 @@ package App.ChangerEmployee;
 
 import java.util.*;
 
-import App.Employee;
-import App.Syndicate;
+import model.Employee.Employee;
+import model.Syndicate.Syndicate;
 import model.Undo.*;
 
 public interface Changer {

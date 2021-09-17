@@ -1,9 +1,12 @@
-package App;
+package model.Syndicate;
+
+import model.Employee.Employee;
 
 public class Syndicate {
     private Employee unionlist;
     private int id;
-    Syndicate(Employee unionlist, int id){
+
+    public Syndicate(Employee unionlist, int id){
         this.unionlist= unionlist;
         this.id= id;
     }
