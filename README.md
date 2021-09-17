@@ -34,7 +34,7 @@ Métodos:
  Foi usado Remove Method, como o método se faz desnecessário, o removeremos do código em detrimento de métodos em uso.
 
 ## Codigo Repetido
- Método payMent() nas classes Comissioned, Hourly e Salaried apresenta o código com similaridades entre si.
+ Método [payMent()](https://github.com/JoseGomesJr/Refactoring_Project_Software/blob/a03a87a33bcfdd0ebdddc7f041271937a8c7c174/src/model/Employee/Commissioned.java#L50) nas classes Comissioned, Hourly e Salaried apresenta o código com similaridades entre si.
  Para corrigir foi usado Extract Method para os passos comum aos métodos. Na classe "pai" Employee.
 
 ## Primitive obcession
